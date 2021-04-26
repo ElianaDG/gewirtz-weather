@@ -28,7 +28,7 @@ public class OpenWeatherMapServiceTest {
         //then
         assertNotNull(feed);
         assertNotNull(feed.main);
-        assertNotNull(feed.main.getTemp());
+        assertNotEquals(0, feed.main.getTemp());
 
 
     }
