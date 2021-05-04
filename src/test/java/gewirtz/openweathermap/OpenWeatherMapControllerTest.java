@@ -15,8 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 
 public class OpenWeatherMapControllerTest {
@@ -25,10 +24,11 @@ public class OpenWeatherMapControllerTest {
 
     @BeforeClass
     public static void beforeClass() {
-        com.sun.javafx.application.PlatformImpl.startup(()->{});
+        com.sun.javafx.application.PlatformImpl.startup(() -> {
+        });
     }
 
-    private void givenOpenWeatherMapController(){
+    private void givenOpenWeatherMapController() {
         OpenWeatherMapServiceFactory factory = new OpenWeatherMapServiceFactory();
         OpenWeatherMapService service = factory.newInstance();
 
@@ -49,7 +49,7 @@ public class OpenWeatherMapControllerTest {
     }
 
     @Test
-    public void initialize(){
+    public void initialize() {
         //given
         givenOpenWeatherMapController();
 
@@ -58,11 +58,14 @@ public class OpenWeatherMapControllerTest {
 
         // then
         verify(controller.fahrenheit).setSelected(true);
+        verifyNoInteractions(controller.dayWeatherLabels);
+        verifyNoInteractions(controller.dayIconImageViews);
+        verifyNoInteractions(controller.dayTextLabels);
 
     }
 
     @Test
-    public void onSearchCelsius(){
+    public void onSearchCelsius() {
         //given
         givenOpenWeatherMapController();
         controller.celsius.setSelected(true);
@@ -76,7 +79,7 @@ public class OpenWeatherMapControllerTest {
     }
 
     @Test
-    public void onSearchFahrenheit(){
+    public void onSearchFahrenheit() {
         //given
         givenOpenWeatherMapController();
         controller.fahrenheit.setSelected(true);
@@ -88,5 +91,5 @@ public class OpenWeatherMapControllerTest {
         //then
         verify(controller.fahrenheit).setSelected(true);
     }
+    
 }
-
