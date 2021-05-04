@@ -22,8 +22,6 @@
     <Label fx:id="currentWeatherLabel" GridPane.rowIndex="4" GridPane.columnIndex="4"/>
     <ImageView fx:id="currentIconImageView" GridPane.rowIndex="4" GridPane.columnIndex="3"/>
 
-    <Label fx:id="forecastLabel" text="5-day Forecast:" GridPane.rowIndex="6" GridPane.columnIndex="2"/>
-
     <Label fx:id="dayOneTextLabel" GridPane.rowIndex="8" GridPane.columnIndex="2"/>
     <Label fx:id="dayTwoTextLabel" GridPane.rowIndex="9" GridPane.columnIndex="2"/>
     <Label fx:id="dayThreeTextLabel" GridPane.rowIndex="10" GridPane.columnIndex="2"/>

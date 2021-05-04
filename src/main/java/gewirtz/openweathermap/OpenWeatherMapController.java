@@ -25,7 +25,7 @@ public class OpenWeatherMapController {
     @FXML
     List<ImageView> dayIconImageViews;
     @FXML
-    Label currentWeatherTextLabel, currentWeatherLabel, forecastLabel;
+    Label currentWeatherTextLabel, currentWeatherLabel;
     @FXML
     List<RadioButton> toggleUnits;
     final ToggleGroup tempUnits = new ToggleGroup();
@@ -34,6 +34,7 @@ public class OpenWeatherMapController {
         for (RadioButton rb : toggleUnits) {
             rb.setToggleGroup(tempUnits);
         }
+        fahrenheit.setSelected(true);
     }
 
     public void onSearch(){
