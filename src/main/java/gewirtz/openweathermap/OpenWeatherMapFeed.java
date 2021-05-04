@@ -9,7 +9,7 @@ public class OpenWeatherMapFeed {
 
     List<Weather> weather;
 
-    public class Weather{
+    public static class Weather{
         String icon;
 
         public String getIconUrl(){
