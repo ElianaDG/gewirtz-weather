@@ -29,8 +29,6 @@ public class OpenWeatherMapControllerTest {
     }
 
     private void givenOpenWeatherMapController() {
-        OpenWeatherMapServiceFactory factory = new OpenWeatherMapServiceFactory();
-        OpenWeatherMapService service = factory.newInstance();
 
         controller = new OpenWeatherMapController();
         controller.celsius = mock(RadioButton.class);
@@ -92,4 +90,5 @@ public class OpenWeatherMapControllerTest {
         verify(controller.fahrenheit).setSelected(true);
     }
     
+
 }
