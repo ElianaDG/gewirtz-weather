@@ -8,11 +8,9 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.util.List;
+
 public class OpenWeatherMapController {
-
-    public void initialize(){
-
-    }
 
     @FXML
     RadioButton celsius, fahrenheit;
@@ -23,20 +21,28 @@ public class OpenWeatherMapController {
     @FXML
     TextField locationTextField;
     @FXML
-    Label dayOneTextLabel, dayTwoTextLabel, dayThreeTextLabel, dayFourTextLabel, dayFiveTextLabel;
+    List<Label> dayTextLabels, dayWeatherLabels;
     @FXML
-    Label currentWeatherTextLabel, currentWeatherLabel, currentIconLabel, forecastLabel;
+    List<ImageView> dayIconImageViews;
     @FXML
-    Label dayOneWeatherLabel, dayTwoWeatherLabel, dayThreeWeatherLabel, dayFourWeatherLabel, dayFiveWeatherLabel;
+    Label currentWeatherTextLabel, currentWeatherLabel, forecastLabel;
     @FXML
-    ImageView dayOneIconImageView, dayTwoIconImageView, dayThreeIconImageView, dayFourIconImageView, dayFiveIconImageView;
+    List<RadioButton> toggleUnits;
+    final ToggleGroup tempUnits = new ToggleGroup();
+
+    public void initialize(){
+        for (RadioButton rb : toggleUnits) {
+            rb.setToggleGroup(tempUnits);
+        }
+    }
 
     public void onSearch(){
         String units = celsius.isSelected() ? "metric" : "imperial";
+
         OpenWeatherMapServiceFactory factory = new OpenWeatherMapServiceFactory();
         OpenWeatherMapService service = factory.newInstance();
 
-        Disposable disposable = service.getCurrentWeather(locationTextField.getText(), units)
+        Disposable currentDisposable = service.getCurrentWeather(locationTextField.getText(), units)
                 //request the data in the background
                 .subscribeOn(Schedulers.io())
                 //work w the data in the foreground
@@ -44,7 +50,7 @@ public class OpenWeatherMapController {
                 //work w the feed whenever it gets downloaded
                 .subscribe(this::onOpenWeatherMapFeed, this::onError);
 
-        disposable = service.getWeatherForecast(locationTextField.getText(), units)
+        Disposable forecastDisposable = service.getWeatherForecast(locationTextField.getText(), units)
                 //request the data in the background
                 .subscribeOn(Schedulers.io())
                 //work w the data in the foreground
@@ -57,23 +63,24 @@ public class OpenWeatherMapController {
         Platform.runLater(new Runnable(){
             @Override
             public void run() {
-                dayOneTextLabel.setText(String.valueOf(forecast.getForecastFor(1).getDate()));
-                dayTwoTextLabel.setText(String.valueOf(forecast.getForecastFor(2).getDate()));
-                dayThreeTextLabel.setText(String.valueOf(forecast.getForecastFor(3).getDate()));
-                dayFourTextLabel.setText(String.valueOf(forecast.getForecastFor(4).getDate()));
-                dayFiveTextLabel.setText(String.valueOf(forecast.getForecastFor(5).getDate()));
+                int day = 1;
+                for(Label textLabel : dayTextLabels) {
+                    String date = forecast.getForecastFor(day).getDate().toString();
+                    textLabel.setText(date.substring(0, date.indexOf("11")));
+                    day++;
+                }
 
-                dayOneWeatherLabel.setText(String.valueOf(forecast.getForecastFor(1).main.temp));
-                dayTwoWeatherLabel.setText(String.valueOf(forecast.getForecastFor(2).main.temp));
-                dayThreeWeatherLabel.setText(String.valueOf(forecast.getForecastFor(3).main.temp));
-                dayFourWeatherLabel.setText(String.valueOf(forecast.getForecastFor(4).main.temp));
-                dayFiveWeatherLabel.setText(String.valueOf(forecast.getForecastFor(5).main.temp));
+                day = 1;
+                for(Label weatherLabel : dayWeatherLabels) {
+                    weatherLabel.setText(String.valueOf(forecast.getForecastFor(day).main.temp));
+                    day++;
+                }
 
-                dayOneIconImageView.setImage(new Image(forecast.list.get(0).weather.get(0).getIconUrl()));
-                dayTwoIconImageView.setImage(new Image(forecast.list.get(0).weather.get(0).getIconUrl()));
-                dayThreeIconImageView.setImage(new Image(forecast.list.get(0).weather.get(0).getIconUrl()));
-                dayFourIconImageView.setImage(new Image(forecast.list.get(0).weather.get(0).getIconUrl()));
-                dayFiveIconImageView.setImage(new Image(forecast.list.get(0).weather.get(0).getIconUrl()));
+                day = 1;
+                for (ImageView icon : dayIconImageViews) {
+                    icon.setImage(new Image(forecast.getForecastFor(day).weather.get(0).getIconUrl()));
+                    day++;
+                }
             }
         });
     }

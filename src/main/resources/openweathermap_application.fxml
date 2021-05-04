@@ -8,17 +8,19 @@
 <GridPane xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
           fx:controller="gewirtz.openweathermap.OpenWeatherMapController"
-          prefHeight="400.0" prefWidth="400.0">
+          prefHeight="400.0" prefWidth="400.0"
+          stylesheets="openweathermap_application.css">
 
-    <Button fx:id="searchButton" text="Search Location" onAction="#onSearch" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+    <Button fx:id="searchButton" text="Search Location" onAction="#onSearch" GridPane.rowIndex="0"
+            GridPane.columnIndex="2"/>
     <TextField fx:id="locationTextField" GridPane.rowIndex="0" GridPane.columnIndex="3" GridPane.columnSpan="2"/>
 
     <RadioButton fx:id="celsius" text="Celsius" GridPane.rowIndex="0" GridPane.columnIndex="5"/>
     <RadioButton fx:id="fahrenheit" text="Fahrenheit" GridPane.rowIndex="0" GridPane.columnIndex="6"/>
 
     <Label fx:id="currentWeatherTextLabel" text="Current Weather:" GridPane.rowIndex="4" GridPane.columnIndex="2"/>
-    <Label fx:id="currentWeatherLabel" GridPane.rowIndex="4" GridPane.columnIndex="3"/>
-    <ImageView fx:id="currentIconImageView" GridPane.rowIndex="4" GridPane.columnIndex="5"/>
+    <Label fx:id="currentWeatherLabel" GridPane.rowIndex="4" GridPane.columnIndex="4"/>
+    <ImageView fx:id="currentIconImageView" GridPane.rowIndex="4" GridPane.columnIndex="3"/>
 
     <Label fx:id="forecastLabel" text="5-day Forecast:" GridPane.rowIndex="6" GridPane.columnIndex="2"/>
 
@@ -40,5 +42,33 @@
     <ImageView fx:id="dayThreeIconImageView" GridPane.rowIndex="10" GridPane.columnIndex="3"/>
     <ImageView fx:id="dayFourIconImageView" GridPane.rowIndex="11" GridPane.columnIndex="3"/>
     <ImageView fx:id="dayFiveIconImageView" GridPane.rowIndex="12" GridPane.columnIndex="3"/>
+
+    <fx:define>
+        <ArrayList fx:id="dayTextLabels">
+            <fx:reference source="dayOneTextLabel"/>
+            <fx:reference source="dayTwoTextLabel"/>
+            <fx:reference source="dayThreeTextLabel"/>
+            <fx:reference source="dayFourTextLabel"/>
+            <fx:reference source="dayFiveTextLabel"/>
+        </ArrayList>
+        <ArrayList fx:id="dayWeatherLabels">
+            <fx:reference source="dayOneWeatherLabel"/>
+            <fx:reference source="dayTwoWeatherLabel"/>
+            <fx:reference source="dayThreeWeatherLabel"/>
+            <fx:reference source="dayFourWeatherLabel"/>
+            <fx:reference source="dayFiveWeatherLabel"/>
+        </ArrayList>
+        <ArrayList fx:id="dayIconImageViews">
+            <fx:reference source="dayOneIconImageView"/>
+            <fx:reference source="dayTwoIconImageView"/>
+            <fx:reference source="dayThreeIconImageView"/>
+            <fx:reference source="dayFourIconImageView"/>
+            <fx:reference source="dayFiveIconImageView"/>
+        </ArrayList>
+        <ArrayList fx:id="toggleUnits">
+            <fx:reference source="celsius"/>
+            <fx:reference source="fahrenheit"/>
+        </ArrayList>
+    </fx:define>
 
 </GridPane>

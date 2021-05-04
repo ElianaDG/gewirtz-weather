@@ -1,0 +1,6 @@
+GridPane{
+-fx-padding:10 10 10 10;
+-fx-max-width:300;
+-fx-max-height:500;
+-fx-background-color: lightblue;
+}
