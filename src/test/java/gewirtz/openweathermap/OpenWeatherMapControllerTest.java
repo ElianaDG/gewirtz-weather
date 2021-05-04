@@ -57,20 +57,8 @@ public class OpenWeatherMapControllerTest {
         controller.initialize();
 
         // then
-        verify(controller.fahrenheit).isSelected();
+        verify(controller.fahrenheit).setSelected(true);
 
-    }
-
-    @Test
-    public void onSearch() {
-        //given
-        givenOpenWeatherMapController();
-
-        //when
-        controller.onSearch();
-
-        //then
-        verify(controller.locationTextField);
     }
 
     @Test
@@ -78,12 +66,13 @@ public class OpenWeatherMapControllerTest {
         //given
         givenOpenWeatherMapController();
         controller.celsius.setSelected(true);
+        controller.fahrenheit.setSelected(false);
 
         //when
         controller.onSearch();
 
         //then
-        verify(controller.celsius).isSelected();
+        verify(controller.celsius).setSelected(true);
     }
 
     @Test
@@ -91,12 +80,13 @@ public class OpenWeatherMapControllerTest {
         //given
         givenOpenWeatherMapController();
         controller.fahrenheit.setSelected(true);
+        controller.celsius.setSelected(false);
 
         //when
         controller.onSearch();
 
         //then
-        verify(controller.fahrenheit).isSelected();
+        verify(controller.fahrenheit).setSelected(true);
     }
 }
 
