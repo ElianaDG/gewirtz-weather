@@ -87,7 +87,7 @@ public class OpenWeatherMapController {
     }
 
     private void onError(Throwable throwable) {
-        //label that says there was an error
+        System.out.println("Error Occurred");
     }
 
     public void onOpenWeatherMapFeed(OpenWeatherMapFeed feed) {
