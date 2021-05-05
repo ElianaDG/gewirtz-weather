@@ -30,6 +30,13 @@ public class OpenWeatherMapController {
     List<RadioButton> toggleUnits;
     final ToggleGroup tempUnits = new ToggleGroup();
 
+    private final OpenWeatherMapService service;
+
+    public OpenWeatherMapController(OpenWeatherMapService service){
+        this.service = service;
+    }
+
+
     public void initialize(){
         for (RadioButton rb : toggleUnits) {
             rb.setToggleGroup(tempUnits);
@@ -39,9 +46,6 @@ public class OpenWeatherMapController {
 
     public void onSearch(){
         String units = celsius.isSelected() ? "metric" : "imperial";
-
-        OpenWeatherMapServiceFactory factory = new OpenWeatherMapServiceFactory();
-        OpenWeatherMapService service = factory.newInstance();
 
         Disposable currentDisposable = service.getCurrentWeather(locationTextField.getText(), units)
                 //request the data in the background
@@ -87,7 +91,7 @@ public class OpenWeatherMapController {
     }
 
     private void onError(Throwable throwable) {
-        System.out.println("Error Occurred");
+        throwable.printStackTrace();
     }
 
     public void onOpenWeatherMapFeed(OpenWeatherMapFeed feed) {

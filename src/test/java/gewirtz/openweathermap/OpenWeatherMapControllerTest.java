@@ -1,6 +1,6 @@
 package gewirtz.openweathermap;
 
-import javafx.event.ActionEvent;
+import io.reactivex.rxjava3.core.Single;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -11,16 +11,13 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 
 public class OpenWeatherMapControllerTest {
 
     private OpenWeatherMapController controller;
+    private OpenWeatherMapService service;
 
     @BeforeClass
     public static void beforeClass() {
@@ -29,8 +26,9 @@ public class OpenWeatherMapControllerTest {
     }
 
     private void givenOpenWeatherMapController() {
+        service = mock(OpenWeatherMapService.class);
 
-        controller = new OpenWeatherMapController();
+        controller = new OpenWeatherMapController(service);
         controller.celsius = mock(RadioButton.class);
         controller.fahrenheit = mock(RadioButton.class);
         controller.locationTextField = mock(TextField.class);
@@ -89,6 +87,22 @@ public class OpenWeatherMapControllerTest {
         //then
         verify(controller.fahrenheit).setSelected(true);
     }
-    
+
+    @Test
+    public void onSearch_Weather(){
+        // given
+        givenOpenWeatherMapController();
+        doReturn(Single.never()).when(service).getCurrentWeather("New York", "imperial");
+        doReturn(Single.never()).when(service).getWeatherForecast("New York", "imperial");
+        doReturn("New York").when(controller.locationTextField).getText();
+        doReturn(true).when(controller.toggleUnits.get(1)).isSelected();
+
+        // when
+        controller.onSearch();
+
+        // then
+        verify(service).getCurrentWeather("New York", "imperial");
+    }
+
 
 }
