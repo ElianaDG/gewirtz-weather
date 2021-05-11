@@ -68,29 +68,33 @@ public class OpenWeatherMapController {
         Platform.runLater(new Runnable(){
             @Override
             public void run() {
-                int day = 1;
-                for(Label textLabel : dayTextLabels) {
-                    String date = forecast.getForecastFor(day).getDate().toString();
-                    textLabel.setText(date.substring(0, date.indexOf("11")));
-                    day++;
-                }
-
-                day = 1;
-                for(Label weatherLabel : dayWeatherLabels) {
-                    weatherLabel.setText(String.valueOf(forecast.getForecastFor(day).main.temp));
-                    day++;
-                }
-
-                day = 1;
-                for (ImageView icon : dayIconImageViews) {
-                    icon.setImage(new Image(forecast.getForecastFor(day).weather.get(0).getIconUrl()));
-                    day++;
-                }
+                setForecastLabels(forecast);
             }
         });
     }
 
-    private void onError(Throwable throwable) {
+    public void setForecastLabels(OpenWeatherMapForecast forecast) {
+        int day = 1;
+        for(Label textLabel : dayTextLabels) {
+            String date = forecast.getForecastFor(day).getDate().toString();
+            textLabel.setText(date.substring(0, date.indexOf("11")));
+            day++;
+        }
+
+        day = 1;
+        for(Label weatherLabel : dayWeatherLabels) {
+            weatherLabel.setText(String.valueOf(forecast.getForecastFor(day).main.temp));
+            day++;
+        }
+
+        day = 1;
+        for (ImageView icon : dayIconImageViews) {
+            icon.setImage(new Image(forecast.getForecastFor(day).weather.get(0).getIconUrl()));
+            day++;
+        }
+    }
+
+    public void onError(Throwable throwable) {
         throwable.printStackTrace();
     }
 
@@ -98,10 +102,14 @@ public class OpenWeatherMapController {
         Platform.runLater(new Runnable(){
             @Override
             public void run() {
-                currentWeatherLabel.setText(String.valueOf(feed.main.temp));
-                currentIconImageView.setImage(new Image(feed.weather.get(0).getIconUrl()));
+                setFeedLabels(feed);
             }
         });
+    }
+
+    public void setFeedLabels(OpenWeatherMapFeed feed) {
+        currentWeatherLabel.setText(String.valueOf(feed.main.temp));
+        currentIconImageView.setImage(new Image(feed.weather.get(0).getIconUrl()));
     }
 
 }
