@@ -61,35 +61,7 @@ public class OpenWeatherMapControllerTest {
     }
 
     @Test
-    public void onSearchCelsius() {
-        //given
-        givenOpenWeatherMapController();
-        controller.celsius.setSelected(true);
-        controller.fahrenheit.setSelected(false);
-
-        //when
-        controller.onSearch();
-
-        //then
-        verify(controller.celsius).setSelected(true);
-    }
-
-    @Test
-    public void onSearchFahrenheit() {
-        //given
-        givenOpenWeatherMapController();
-        controller.fahrenheit.setSelected(true);
-        controller.celsius.setSelected(false);
-
-        //when
-        controller.onSearch();
-
-        //then
-        verify(controller.fahrenheit).setSelected(true);
-    }
-
-    @Test
-    public void onSearch_Weather(){
+    public void onSearch(){
         // given
         givenOpenWeatherMapController();
         doReturn(Single.never()).when(service).getCurrentWeather("New York", "imperial");
@@ -104,5 +76,36 @@ public class OpenWeatherMapControllerTest {
         verify(service).getCurrentWeather("New York", "imperial");
     }
 
+    @Test
+    public void onOpenWeatherMapFeed(){
+        //given
+        givenOpenWeatherMapController();
+        doReturn(Single.never()).when(service).getCurrentWeather("New York", "imperial");
+        doReturn(Single.never()).when(service).getWeatherForecast("New York", "imperial");
+        doReturn("New York").when(controller.locationTextField).getText();
+        doReturn(true).when(controller.toggleUnits.get(1)).isSelected();
 
+        //when
+        controller.onSearch();
+
+        //then
+        verify(service).getCurrentWeather("New York", "imperial");
+    }
+
+    @Test
+    public void onOpenWeatherMapForecast(){
+        //given
+        givenOpenWeatherMapController();
+        doReturn(Single.never()).when(service).getCurrentWeather("New York", "imperial");
+        doReturn(Single.never()).when(service).getWeatherForecast("New York", "imperial");
+        doReturn("New York").when(controller.locationTextField).getText();
+        doReturn(true).when(controller.toggleUnits.get(1)).isSelected();
+
+        //when
+        controller.onSearch();
+
+        //then
+        verify(service).getWeatherForecast("New York", "imperial");
+
+    }
 }
